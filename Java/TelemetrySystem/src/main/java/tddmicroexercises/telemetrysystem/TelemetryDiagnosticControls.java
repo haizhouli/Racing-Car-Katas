@@ -4,41 +4,59 @@ public class TelemetryDiagnosticControls
 {
     private final String DiagnosticChannelConnectionString = "*111#";
     
-    private final TelemetryClient telemetryClient;
+    private IConnection connectionControl;
+
+    private IMessage messageControl;
+
     private String diagnosticInfo = "";
 
-        public TelemetryDiagnosticControls()
-        {
-            telemetryClient = new TelemetryClient();
-        }
-        
-        public String getDiagnosticInfo(){
-            return diagnosticInfo;
-        }
-        
-        public void setDiagnosticInfo(String diagnosticInfo){
-            this.diagnosticInfo = diagnosticInfo;
-        }
- 
-        public void checkTransmission() throws Exception
-        {
-            diagnosticInfo = "";
+    public void setConnectionControl(IConnection connectionControl)
+    {
+        this.connectionControl = connectionControl;
+    }
 
-            telemetryClient.disconnect();
-    
-            int retryLeft = 3;
-            while (telemetryClient.getOnlineStatus() == false && retryLeft > 0)
-            {
-                telemetryClient.connect(DiagnosticChannelConnectionString);
-                retryLeft -= 1;
-            }
-             
-            if(telemetryClient.getOnlineStatus() == false)
-            {
-                throw new Exception("Unable to connect.");
-            }
-    
-            telemetryClient.send(TelemetryClient.DIAGNOSTIC_MESSAGE);
-            diagnosticInfo = telemetryClient.receive();
+    public IConnection getConnectionControl()
+    {
+        return this.connectionControl;
+    }
+
+    public void setMessageControl(IMessage messageControl)
+    {
+        this.messageControl = messageControl;
+    }
+
+    public IMessage getMessageControl()
+    {
+        return this.messageControl;
+    }
+
+    public String getDiagnosticInfo(){
+        return diagnosticInfo;
+    }
+
+    public void setDiagnosticInfo(String diagnosticInfo){
+        this.diagnosticInfo = diagnosticInfo;
+    }
+
+    public void checkTransmission() throws Exception
+    {
+        diagnosticInfo = "";
+
+        connectionControl.disconnect();
+
+        int retryLeft = 3;
+        while (connectionControl.getOnlineStatus() == false && retryLeft > 0)
+        {
+            connectionControl.connect(DiagnosticChannelConnectionString);
+            retryLeft -= 1;
+        }
+
+        if(connectionControl.getOnlineStatus() == false)
+        {
+            throw new Exception("Unable to connect.");
+        }
+
+        messageControl.send(messageControl.DIAGNOSTIC_MESSAGE);
+        diagnosticInfo = messageControl.receive();
     }
 }
