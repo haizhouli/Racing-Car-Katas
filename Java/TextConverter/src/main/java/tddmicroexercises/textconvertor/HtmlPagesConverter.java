@@ -8,14 +8,34 @@ import java.util.List;
 
 public class HtmlPagesConverter {
 
-    private String filename;
+    private IPageReader reader;
     private List<Integer> breaks = new ArrayList<Integer>();
-    
-    public HtmlPagesConverter(String filename) throws IOException {
-        this.filename = filename;
+    private String fileName;
 
+    public void setReader(IPageReader reader)
+    {
+        this.reader = reader;
+    }
+
+    public IPageReader getReader()
+    {
+        return this.reader;
+    }
+
+    public HtmlPagesConverter(String fileName)
+    {
+        this.fileName = fileName;
+    }
+
+    private boolean initReader() throws IOException
+    {
+        return reader.init(fileName);
+    }
+
+    private void cumulateBreaks() throws IOException
+    {
+        initReader();
         this.breaks.add(0);
-        BufferedReader reader = new BufferedReader(new FileReader(this.filename));
         int cumulativeCharCount = 0;
         String line = reader.readLine();
         while (line != null)
@@ -27,11 +47,11 @@ public class HtmlPagesConverter {
             }
             line = reader.readLine();
         }
-        reader.close();
     }
 
     public String getHtmlPage(int page) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(this.filename));
+        cumulateBreaks();
+        initReader();
         reader.skip(breaks.get(page));
         StringBuffer htmlPage = new StringBuffer();
         String line = reader.readLine();
@@ -48,9 +68,4 @@ public class HtmlPagesConverter {
         reader.close();
         return htmlPage.toString();
     }
-
-    public String getFilename() {
-        return this.filename;
-    }
-    
 }

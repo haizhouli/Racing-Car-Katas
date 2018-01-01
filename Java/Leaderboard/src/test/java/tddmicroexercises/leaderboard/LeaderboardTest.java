@@ -41,8 +41,8 @@ public class LeaderboardTest {
     public void itShouldKeepAllDriversWhenSamePoints() {
         // setup
         // bug, drops drivers with same points
-        Race winDriver1 = new Race("Australian Grand Prix", driver1, driver2, driver3);
-        Race winDriver2 = new Race("Malaysian Grand Prix", driver2, driver1, driver3);
+        MockRace winDriver1 = new MockRace("Australian Grand Prix", driver1, driver2, driver3);
+        MockRace winDriver2 = new MockRace("Malaysian Grand Prix", driver2, driver1, driver3);
         Leaderboard exEquoLeaderBoard = new Leaderboard(winDriver1, winDriver2);
 
         // act

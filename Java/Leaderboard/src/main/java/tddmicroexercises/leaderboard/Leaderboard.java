@@ -10,16 +10,16 @@ import java.util.Map;
 
 public class Leaderboard {
 
-    private final List<Race> races;
+    private final List<IRace> races;
 
-    public Leaderboard(Race... races) {
+    public Leaderboard(IRace... races) {
         this.races = Arrays.asList(races);
     }
 
     public Map<String, Integer> driverResults() {
         Map<String, Integer> results = new HashMap<>();
-        for (Race race : this.races) {
-            for (Driver driver : race.getResults()) {
+        for (IRace race : this.races) {
+            for (AbstractDriver driver : race.getResults()) {
                 String driverName = race.getDriverName(driver);
                 int points = race.getPoints(driver);
                 if (results.containsKey(driverName)) {

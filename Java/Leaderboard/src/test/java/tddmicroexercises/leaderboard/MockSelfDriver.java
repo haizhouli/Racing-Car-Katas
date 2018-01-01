@@ -1,10 +1,10 @@
 package tddmicroexercises.leaderboard;
 
-public class SelfDrivingCar extends AbstractDriver {
+public class MockSelfDriver extends AbstractDriver{
 
     private String algorithmVersion;
 
-    public SelfDrivingCar(String algorithmVersion, String company) {
+    public MockSelfDriver(String algorithmVersion, String company) {
         super(algorithmVersion, company);
         this.algorithmVersion = algorithmVersion;
     }

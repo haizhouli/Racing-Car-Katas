@@ -1,8 +1,8 @@
 package tddmicroexercises.leaderboard;
 
-public class Driver extends AbstractDriver{
+public class MockDriver extends AbstractDriver{
 
-    public Driver(String name, String country) {
+    public MockDriver(String name, String country) {
         super(name,country);
     }
 
@@ -16,10 +16,11 @@ public class Driver extends AbstractDriver{
         if (this == obj) {
             return true;
         }
-        if (obj == null || !(obj instanceof Driver)) {
+        if (obj == null || !(obj instanceof MockDriver)) {
             return false;
         }
-        Driver other = (Driver) obj;
+        MockDriver other = (MockDriver) obj;
         return this.name.equals(other.name) && this.country.equals(other.country);
     }
+
 }

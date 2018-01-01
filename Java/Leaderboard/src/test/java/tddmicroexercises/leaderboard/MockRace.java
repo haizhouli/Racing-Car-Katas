@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Race implements IRace{
+public class MockRace implements IRace{
 
     private static final Integer[] POINTS = new Integer[]{25, 18, 15};
 
@@ -13,7 +13,7 @@ public class Race implements IRace{
     private final List<AbstractDriver> results;
     private final Map<AbstractDriver, String> driverNames;
 
-    public Race(String name, AbstractDriver... drivers) {
+    public MockRace(String name, AbstractDriver... drivers) {
         this.name = name;
         this.results = Arrays.asList(drivers);
         this.driverNames = new HashMap<>();
@@ -31,7 +31,7 @@ public class Race implements IRace{
     }
 
     public int getPoints(AbstractDriver driver) {
-        return Race.POINTS[position(driver)];
+        return MockRace.POINTS[position(driver)];
     }
 
     public List<AbstractDriver> getResults() {
@@ -46,4 +46,5 @@ public class Race implements IRace{
     public String toString() {
         return name;
     }
+
 }
