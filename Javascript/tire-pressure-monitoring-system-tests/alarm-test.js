@@ -6,8 +6,8 @@ describe('Tyre Pressure Monitoring System', function () {
 		var target;
 
 		beforeEach(function () {
+		    target = new Alarm(stubSensor);
 			stubSensor = a.stub(Sensor);
-			target = new Alarm(stubSensor);
 		});
 
 		it('normal pressure does not raise the alarm', function () {
