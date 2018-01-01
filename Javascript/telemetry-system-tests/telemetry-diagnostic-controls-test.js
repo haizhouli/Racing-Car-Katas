@@ -4,10 +4,16 @@ describe('Telemetry System', function () {
 
 		it('CheckTransmission() should send a diagnostic message and receive a status message response', function () {
 
-			var target = new TelemetryDiagnosticControls();
-			target.checkTransmission();
+			var mockChannel = a.mock(TelemetryData);
+            spyOn(mockChannel, 'send');
+            spyOn(mockChannel, 'receive');
+            var stubTelemetryConnection = a.stub(TelemetryClient);
 
-			var result = target.readDiagnosticInfo();
+            var target = new TelemetryDiagnosticControls(stubTelemetryConnection, mockChannel);
+            target.checkTransmission();
+
+            expect(mockChannel.send).toHaveBeenCalledWith(TelemetryData.diagnosticMessage());
+            expect(mockChannel.receive).toHaveBeenCalled();
 
 		});
 

@@ -1,9 +1,14 @@
 
-TelemetryDiagnosticControls = function() {
+TelemetryDiagnosticControls = function (telemetryClient, telemetryData) {
 
-	this._diagnosticChannelConnectionString = function() { return '*111#'; };
+	this._diagnosticChannelConnectionString = function () { return '*111#'; };
 	this._diagnosticInfo = '';
-	this._telemetryClient = new TelemetryClient();
+	this._telemetryClient = telemetryClient;
+	this._telemetryData = telemetryData;
+};
+
+TelemetryDiagnosticControls.Create = function () {
+	return new TelemetryDiagnosticControls(new TelemetryClient(), new TelemetryData());
 };
 
 TelemetryDiagnosticControls.prototype = {
@@ -32,7 +37,7 @@ TelemetryDiagnosticControls.prototype = {
 			throw 'Unable to connect';
 		}
 
-		this._telemetryClient.send(TelemetryClient.diagnosticMessage());
-		this._diagnosticInfo = this._telemetryClient.receive();
+		this._telemetryData.send(telemetryData.diagnosticMessage());
+		this._diagnosticInfo = this._telemetryData.receive();
 	}
 };

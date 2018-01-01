@@ -1,22 +1,24 @@
-
-
-UnicodeFileToHtmlTextConverter = function(fileBlob) {
-	this._fileBlob = fileBlob;
+UnicodeFileToHtmTextConverter = function (textStream) {
+	this._textStream = textStream;
 };
 
-UnicodeFileToHtmlTextConverter.prototype = {
+UnicodeFileToHtmTextConverter.CreateFromFileBlob = function(fileBlob) {
+	var textStream = new TextStream(fileBlob);
+	return new UnicodeFileToHtmTextConverter(textStream);
+};
 
-	convertToHtml: function () {
+UnicodeFileToHtmTextConverter.prototype = {
 
-		var fileReader = new FileReader();
-		var text;
-		fileReader.onload = function(evt) {
-			text = evt.target.result;
-		};
-		fileReader.readAsText(this._fileBlob);
+	convertToHtml: function (callback) {
 
-		var htmlLines = this._basicHtmlEncode(text);
-		return htmlLines;
+		var self = this;
+		self._textStream.getText(function(text) {
+			var htmlLines = self._basicHtmlEncode(text);
+			if (callback) {
+				callback(htmlLines);
+			}
+		});
+
 	},
 
 	_basicHtmlEncode: function (source) {
